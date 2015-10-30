@@ -1,25 +1,25 @@
  1. cd ~; tar -xzf asuswrt-merlin.tgz
  2. open https://github.com/RMerl/asuswrt-merlin/wiki/Compile-Firmware-from-source-using-Ubuntu in browser
  3. sudo apt-get install autoconf automake bash bison bzip2 diffutils file flex m4 g++ gawk groff-base libncurses-dev libtool libslang2 make patch perl pkg-config shtool subversion tar texinfo zlib1g zlib1g-dev git-core gettext libexpat1-dev libssl-dev cvs gperf unzip python libxml-parser-perl gcc-multilib gconf-editor libxml2-dev g++-4.4 g++-multilib gitk libncurses5 mtd-utils libncurses5-dev libstdc++6-4.4-dev libvorbis-dev g++-4.4-multilib git autopoint autogen sed build-essential intltool libelf1:i386 libglib2.0-dev lib32z1-dev lib32stdc++6 
- 4. sudo ln -s ~/asuswrt-merlin/tools/brcm /opt/brcm
-    sudo ln -s ~/asuswrt-merlin/release/src-rt-6.x.4708/toolchains/hndtools-arm-linux-2.6.36-uclibc-4.5.3 /opt/brcm-arm
+ 4. sudo ln -s $SRC_HOME/tools/brcm /opt/brcm
+    sudo ln -s $SRC_HOME/release/src-rt-6.x.4708/toolchains/hndtools-arm-linux-2.6.36-uclibc-4.5.3 /opt/brcm-arm
     export PATH=$PATH:/opt/brcm/hndtools-mipsel-linux/bin:/opt/brcm/hndtools-mipsel-uclibc/bin:/opt/brcm-arm/bin
     sudo mkdir -p /media/ASUSWRT/
-    sudo ln -s ~/asuswrt-merlin /media/ASUSWRT/asuswrt-merlin
+    sudo ln -s $SRC_HOME /media/ASUSWRT/asuswrt-merlin
  5. fire following commands
     sudo apt-get install libproxy-dev
     # fix neon missing proxy.h
-    cp /usr/include/proxy.h ~/asuswrt-merlin/release/src/router/neon/
+    cp /usr/include/proxy.h $SRC_HOME/release/src/router/neon/
     # fix broken configure script for libdaemon
-    cd ~/asuswrt-merlin/release/src/router/libdaemon
+    cd $SRC_HOME/release/src/router/libdaemon
     aclocal
     # fix broken configure script for libxml2
-    cd ~/asuswrt-merlin/release/src/router/libxml2
-    sed -i s/AM_C_PROTOTYPES/#AM_C_PROTOTYPES/g ~/asuswrt-merlin/release/src/router/libxml2/configure.in
+    cd $SRC_HOME/release/src/router/libxml2
+    sed -i s/AM_C_PROTOTYPES/#AM_C_PROTOTYPES/g $SRC_HOME/release/src/router/libxml2/configure.in
     aclocal
- 6. cd ~/asuswrt-merlin/; patch -p0 < ~/patch
- 7. cd ~/asuswrt-merlin/release/src/router/tor
+ 6. cd $SRC_HOME/; patch -p0 < ~/patch
+ 7. cd $SRC_HOME/release/src/router/tor
     rm Makefile; aclocal
     #repeat step 7-9 several times. There is some version problem for aclocal and automake in Makefile.
- 8. cd ~/asuswrt-merlin/release/src-rt-7.x.main/src/
+ 8. cd $SRC_HOME/release/src-rt-7.x.main/src/
  9. make rt-ac3200 2>&1 | tee /tmp/build.log
