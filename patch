@@ -1,0 +1,41 @@
+--- release/src/router/asusnatnl/pjproject-1.12/build/rules.mak	2015-10-14 08:38:49.000000000 +0530
++++ /home/abhijit/asuswrt-merlin/release/src/router/asusnatnl/pjproject-1.12/build/rules.mak	2015-10-15 16:22:12.927243127 +0530
+@@ -77,9 +77,10 @@
+ 	@echo LIB=$(LIB)
+ 	@echo LIBDIR=$(LIBDIR)
+ 
+-$(LIB): $(OBJDIRS) $(OBJS) $($(APP)_EXTRA_DEP)
++$(LIB): $(OBJDIRS) $(OBJS) $($(APP)_EXTRA_DEP) print_lib
+ 	if test ! -d $(LIBDIR); then $(subst @@,$(subst /,$(HOST_PSEP),$(LIBDIR)),$(HOST_MKDIR)); fi
+-	$(AR) $(LIB) $(OBJS)
++	@echo $(AR) qf $(LIB) $(OBJS)
++	$(AR)  $(LIB) $(OBJS)
+ 	$(RANLIB) $(LIB)
+ 
+ $(EXE): $(OBJDIRS) $(OBJS) $($(APP)_EXTRA_DEP)
+--- release/src/router/Makefile	2015-10-14 08:20:33.000000000 +0530
++++ /home/abhijit/asuswrt-merlin/release/src/router/Makefile	2015-10-19 08:11:51.404438041 +0530
+@@ -1594,10 +1594,12 @@
+ endif
+ 
+ dhd-install :
++	@echo "inside dhd-install"
+ ifneq ($(wildcard $(SRCBASE_DHD)/dhd/exe),)
+ 	install -d $(INSTALLDIR)/dhd/usr/sbin
+ 	install $(SRCBASE_DHD)/dhd/exe/dhd $(INSTALLDIR)/dhd/usr/sbin
+ 	$(STRIP) $(INSTALLDIR)/dhd/usr/sbin/dhd
++	@echo "inside install dhd-install"
+ endif
+ endif
+ 
+--- release/src-rt-6.x.4708/toolchains/hndtools-arm-linux-2.6.36-uclibc-4.5.3/bin/automake-1.11	2015-10-14 08:14:26.000000000 +0530
++++ /home/abhijit/asuswrt-merlin/release/src-rt-6.x.4708/toolchains/hndtools-arm-linux-2.6.36-uclibc-4.5.3/bin/automake-1.11	2015-10-15 13:22:35.059549639 +0530
+@@ -31,7 +31,7 @@
+ 
+ BEGIN
+ {
+-  my $perllibdir = $ENV{'perllibdir'} || '/projects/hnd/tools/linux/hndtools-arm-linux-2.6.36-uclibc-4.5.3/share/automake-1.11';
++  my $perllibdir = $ENV{'perllibdir'} || '/opt/brcm-arm/share/automake-1.11/';
+   unshift @INC, (split ':', $perllibdir);
+ 
+   # Override SHELL.  This is required on DJGPP so that system() uses
