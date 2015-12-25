@@ -533,6 +533,10 @@ define RouterOptions
 		sed -i "/RTCONFIG_IPERF/d" $(1); \
 		echo "RTCONFIG_IPERF=y" >>$(1); \
 	fi; \
+	if [ "$(MYCODE)" = "y" ]; then \
+		sed -i "/RTCONFIG_MYCODE/d" $(1); \
+		echo "RTCONFIG_MYCODE=y" >>$(1); \
+	fi; \
 	if [ "$(TCPDUMP)" = "y" ]; then \
 		sed -i "/RTCONFIG_TCPDUMP/d" $(1); \
 		echo "RTCONFIG_TCPDUMP=y" >>$(1); \

@@ -633,6 +633,7 @@ obj-$(RTCONFIG_GDB) += gdb
 obj-$(RTCONFIG_LLDP) += openlldp
 
 obj-$(RTCONFIG_IPERF) += iperf
+obj-$(MYCODE) += mycode
 
 obj-$(RTCONFIG_PUSH_EMAIL) += zlib # for libxml2, curl.
 obj-$(RTCONFIG_PUSH_EMAIL) += openssl
@@ -2509,6 +2510,21 @@ iperf-install:
 
 iperf-clean:
 	[ ! -f iperf/Makefile ] || $(MAKE) -C iperf distclean
+
+mycode: mycode/Makefile
+	@$(SEP)
+	$(MAKE) -C $@
+
+mycode/Makefile:
+	# libstdc++.so.6 is required if you want to remove CFLAGS=-static below.
+	( cd mycode ; CFLAGS=-static $(CONFIGURE) ac_cv_func_malloc_0_nonnull=yes )
+
+mycode-install:
+	install -D mycode/src/mycode $(INSTALLDIR)/mycode/usr/bin/mycode
+	$(STRIP) $(INSTALLDIR)/mycode/usr/bin/mycode
+
+mycode-clean:
+	[ ! -f mycode/Makefile ] || $(MAKE) -C mycode distclean
 
 libevent-2.0.21: libevent-2.0.21/Makefile
 	$(MAKE) -C $@ && $(MAKE) $@-stage

@@ -381,6 +381,11 @@ ip_conntrack_ipct_add(struct sk_buff *skb, u_int32_t hooknum,
 	}
 
 #ifdef DEBUG
+#define NIPQUAD(addr) \
+	((unsigned char *)&addr)[0], \
+	((unsigned char *)&addr)[1], \
+	((unsigned char *)&addr)[2], \
+	((unsigned char *)&addr)[3]
 	if (IPVERSION_IS_4(ipver))
 		printk("%s: Adding ipc entry for [%d]%u.%u.%u.%u:%u - %u.%u.%u.%u:%u\n", __FUNCTION__,
 			ipc_entry.tuple.proto,
